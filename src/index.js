@@ -21,6 +21,7 @@ type Props = {
   style: {},
   suffix: string,
   useEasing: boolean,
+  isSvg: boolean,
 };
 
 type FormatNumberFn = (
@@ -160,7 +161,23 @@ export default class CountUp extends React.Component<*, *> {
       suffix,
       style,
       formattingFn,
+      isSvg,
     } = this.props;
+
+    if (isSvg)
+      return (
+        <tspan className={className} ref={this.refSpan} style={style}>
+          {typeof formattingFn === 'function'
+            ? formattingFn(start)
+            : formatNumber(start, {
+                decimal,
+                decimals,
+                separator,
+                prefix,
+                suffix,
+              })}
+        </tspan>
+      );
 
     return (
       <span className={className} ref={this.refSpan} style={style}>
